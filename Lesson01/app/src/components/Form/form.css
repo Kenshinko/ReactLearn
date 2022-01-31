@@ -1,0 +1,19 @@
+.typeform {
+  align-self: center;
+  margin-bottom: 7px;
+}
+
+.typeform__input {
+  width: 55%;
+  margin-right: 8px;
+  border-radius: 4px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  font-size: 0.65em;
+}
+
+.typeform__submit {
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 0.65em;
+}
