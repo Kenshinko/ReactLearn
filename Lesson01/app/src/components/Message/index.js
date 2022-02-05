@@ -1,7 +1,11 @@
 import './message.css';
 
-export const Message = ({text, onTextClick}) => {
+export const Message = ({text, author, date}) => {
   return (
-  <h3 className="greeting">Здравствуйте, <span className="tag-name" onClick={onTextClick}>{text}</span>.</h3>
+    <div className="message">
+      <h2 className="message__autor">{author}</h2>
+      <p className="message__text">{text}</p>
+      <p className="message__date">{date}</p>
+    </div>
   );
 };
