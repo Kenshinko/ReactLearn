@@ -1,19 +1,40 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import './App.css';
-import { Message } from './components/Message';
+import React, { useEffect, useState } from 'react';
+import { MessageList } from './components/MessageList';
 import { Form } from './components/Form';
+import { ChatsList } from './components/ChatsList';
+import { Authors } from './utils/variables';
+import { BotResponses } from './utils/variables';
+import './App.css';
+
+// import ReactDOM from 'react-dom';
+// import Button from '@mui/material/Button';
 
 function App() {
   const [messageList, setMessageList] = useState([]);
+  
+  const handleAddMessage = (text) => {
+    sendMessage (text);
+  }
 
-  const handleAddMessage = ({text, author, date}) => {
-    setMessageList((prevMessageList) => [...prevMessageList, {text, author, date}]);
-    console.log(messageList);
+  const sendMessage = (text) => {
+    const newMessage = {
+      id: `Msg${Date.now()}`,
+      author: Authors.user.name,
+      text,
+      date: new Date().toLocaleTimeString(),
+    };
+    setMessageList((prevMessageList) => [...prevMessageList, newMessage]);
+    getBotResponse();
   }
 
   const getBotResponse = () => {
-    if (messageList[messageList.length - 1].author === 'user') {
-      setMessageList((prevMessageList) => [...prevMessageList, {text: 'Привет, я бот! Я мог бы быть лучше, если бы мой создатель не поленился. :(', author: 'bot', date: new Date().toLocaleTimeString()}]);
+    if (messageList[messageList.length - 1]?.author === Authors.user.name) {
+      setMessageList((prevMessageList) => [...prevMessageList, {
+        id: `Msg${Date.now()}`,
+        author: Authors.bot.name,
+        text: BotResponses[Math.floor(Math.random() * BotResponses.length)],
+        date: new Date().toLocaleTimeString(),
+      }]);
     }
   }
 
@@ -28,10 +49,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div className="timeline">
-          {messageList.map(({text, author, date}) => (
-            <Message text={text} author={author} date={date} />
-          ))}
-          <Form onSubmit={handleAddMessage} onClick={getBotResponse}/>
+          <MessageList messages={messageList} />
+          <Form onSubmit={handleAddMessage} />
+          <ChatsList />
         </div>
       </header>
     </div>

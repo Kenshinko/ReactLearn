@@ -1,19 +1,21 @@
 .typeform {
   align-self: center;
-  margin-bottom: 7px;
+  margin: 5px 14px 7px;
+  display: flex;
 }
 
-.typeform__input {
-  width: 55%;
-  margin-right: 8px;
-  border-radius: 4px;
+.typeform__input .MuiInputBase-root {
+  width: 95%;
+  border-radius: 5px;
   padding: 0 15px;
+  background-color: white;
   box-sizing: border-box;
   font-size: 0.65em;
 }
 
-.typeform__submit {
-  border-radius: 4px;
+.typeform__submit.MuiButtonBase-root {
+  border-radius: 5px;
   padding: 0 5px;
   font-size: 0.65em;
+  min-width: 46px;
 }
