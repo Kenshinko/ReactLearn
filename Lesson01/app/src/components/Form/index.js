@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import './form.css';
 
-export const Form = ({ onSubmit, onClick }) => {
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import SendIcon from '@mui/icons-material/Send';
+
+export const Form = ({ onSubmit }) => {
   const [value, setValue] = useState('');
+  const textField = useRef(null);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -12,15 +17,29 @@ export const Form = ({ onSubmit, onClick }) => {
     event.preventDefault();
 
     if (!value) return;
-    onSubmit({text: value, author: 'user', date: new Date().toLocaleTimeString()});
+    onSubmit(value);
+    setValue('');
   }
 
-  const handleClick = () => {
-    onClick();
-  }
+  useEffect(() => {
+    textField.current.focus();
+  }, []);
 
   return <form className="typeform" onSubmit={handleSubmit}>
-          <input className="typeform__input" value={value} onChange={handleChange} type="text" />
-          <input className="typeform__submit" type="submit" onClick={handleClick} value="Отправить" />
+          <TextField className="typeform__input"
+                     id="outlined-basic"
+                     label="Напишите что-нибудь"
+                     variant="outlined"
+                     size="small"
+                     type="text"
+                     value={value}
+                     onChange={handleChange}
+                     ref={textField}
+          />
+          <Button className="typeform__submit"
+                  endIcon={<SendIcon />}
+                  variant="contained"
+                  size="small"
+                  type="submit"></Button>
          </form>;
 };
