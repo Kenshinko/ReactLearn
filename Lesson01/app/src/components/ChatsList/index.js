@@ -3,8 +3,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import CommentIcon from '@mui/icons-material/Comment';
 import IconButton from '@mui/material/IconButton';
-import './chatslist.css';
+import { Link, Outlet } from 'react-router-dom';
 
+import './chatslist.css';
 
 const chats = [
   {name: 'Chat1', id: 'chat1'},
@@ -12,19 +13,26 @@ const chats = [
 ];
 
 export const ChatsList = () => (
-  <List className='chatslist'>
-    {chats.map((value) => (
-      <ListItem
-        key={value.id}
-        disableGutters
-        secondaryAction={
-          <IconButton>
-            <CommentIcon />
-          </IconButton>
-        }
-      >
-        <ListItemText primary={`${value.name}`} />
-      </ListItem>
-    ))}
-  </List>
+  <>
+    <List className='chatslist'>
+      {chats.map((chat) => (
+        <ListItem
+          key={chat.id}
+          disableGutters
+          secondaryAction={
+            <Link to={`/chats/${chat.id}`}>
+              <IconButton>
+                <CommentIcon />
+              </IconButton>
+            </Link>
+          }
+        >
+          <Link to={`/chats/${chat.id}`}>
+            <ListItemText primary={`${chat.name}`} />
+          </Link>
+        </ListItem>
+      ))}
+    </List>
+    <Outlet />
+  </>
 );

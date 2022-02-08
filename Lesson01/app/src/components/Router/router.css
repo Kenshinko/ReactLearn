@@ -1,0 +1,16 @@
+.navigation {
+  background-color: #282c34;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  font-size: calc(10px + 2vmin);
+}
+
+.navigation li {
+  padding: 0 10px;
+  margin-top: 10px;
+}
+
+.navigation li a{
+  color: white;
+}
