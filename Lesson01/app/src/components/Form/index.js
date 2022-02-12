@@ -7,7 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 
 export const Form = ({ onSubmit }) => {
   const [value, setValue] = useState('');
-  const textField = useRef(null);
+  const textField = useRef('');
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -34,12 +34,13 @@ export const Form = ({ onSubmit }) => {
                      type="text"
                      value={value}
                      onChange={handleChange}
-                     ref={textField}
+                     inputRef={textField}
           />
           <Button className="typeform__submit"
                   endIcon={<SendIcon />}
                   variant="contained"
                   size="small"
-                  type="submit"></Button>
+                  type="submit">
+          </Button>
          </form>;
 };
