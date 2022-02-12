@@ -1,0 +1,28 @@
+.profile__discolor {
+  border: 1px solid white;
+  border-radius: 5px;
+  margin: 10px 50px 5px;
+  padding: 5px 15px;
+  }
+
+.mixes input {
+  display: none;
+}
+
+.mixes li {
+  margin-bottom: 10px;
+}
+
+.mixes__title {
+  border: 1px solid white;
+  border-radius: 5px;
+  margin: 10px 25px 5px;
+  padding: 5px 15px;
+  color: white;
+}
+
+.mixes__colors {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+}
