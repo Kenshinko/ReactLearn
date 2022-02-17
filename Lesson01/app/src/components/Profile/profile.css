@@ -1,8 +1,17 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 50px 5px;
+}
+
 .profile__discolor {
   border: 1px solid white;
   border-radius: 5px;
-  margin: 10px 50px 5px;
+  margin: 50px 50px 5px;
   padding: 5px 15px;
+  width: 550px;
   }
 
 .mixes input {

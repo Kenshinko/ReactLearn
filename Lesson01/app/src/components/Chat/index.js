@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { Navigate, useParams } from "react-router";
+import { useDispatch, useSelector } from 'react-redux';
+
 import { MessageList } from '../MessageList';
 import { Form } from '../Form';
-import { Navigate, useParams } from "react-router";
 
 import { Authors } from '../../utils/variables';
 import { BotResponses } from '../../utils/variables';
+import { selectMessages } from '../../store/chats/messages/selector';
+import { addMessage } from '../../store/chats/messages/actions';
 
 import '../../App.css';
 
@@ -12,62 +16,55 @@ export const Chat = () => {
   const params = useParams();
   const {chatId} = params;
 
-  const [messageList, setMessageList] = useState({
-    chat1: [],
-    chat2: [],
-  });
-  
+  const messages = useSelector(selectMessages);
+  const dispatch = useDispatch();
+
   const handleAddMessage = (text) => {
     sendMessage (text);
-  }
+  };
 
   const sendMessage = (text) => {
-    const newMessage = {
+    const newMess = {
       id: `Msg${Date.now()}`,
       author: Authors.user.name,
       text,
       date: new Date().toLocaleTimeString(),
     };
-    setMessageList((prevMessageList) => ({
-      ...prevMessageList,
-      [chatId]: [...prevMessageList[chatId], newMessage],
-    }));
+    dispatch(addMessage(chatId, newMess));
     getBotResponse();
-  }
+  };
 
   const getBotResponse = () => {
-    if (messageList[chatId]?.[messageList[chatId].length - 1]?.author === Authors.user.name) {
-      setMessageList((prevMessageList) => ({
-        ...prevMessageList,
-        [chatId]: [...prevMessageList[chatId],  {
+    const item = messages[chatId];
+    if (item.length > 0 && item[item.length - 1].author === Authors.user.name)
+     {
+      const newMess = {
           id: `Msg${Date.now()}`,
           author: Authors.bot.name,
           text: BotResponses[Math.floor(Math.random() * BotResponses.length)],
           date: new Date().toLocaleTimeString(),
-        }]
-      }));
-    }
-  }
+        };
+      dispatch(addMessage(chatId, newMess));
+      }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       getBotResponse()
     }, 1000);
     return () => clearTimeout(timer);
-    }, [messageList, getBotResponse])
+    }, [messages, getBotResponse])
 
-  if (!messageList[chatId]) {
+  if (!messages[chatId]) {
     return <Navigate to="/chats" replace />;
-  }
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
+
         <div className="timeline">
-          <MessageList messages={messageList[chatId]} />
+          <MessageList messages={messages[chatId]} />
           <Form onSubmit={handleAddMessage} />
         </div>
-      </header>
-    </div>
+
   );
 };
