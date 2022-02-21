@@ -5,7 +5,7 @@ import './profile.css';
 
 export const Profile = () => {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state);
+  const data = useSelector((state) => state.profile);
 
   const handleColorChange = (color) => {
     dispatch({
