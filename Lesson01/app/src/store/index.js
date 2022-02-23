@@ -6,6 +6,7 @@ import storage from 'redux-persist/lib/storage';
 import { profileReducer } from './profile/reducer';
 import { chatsReducer } from './chats/reducer';
 import { messagesReducer } from './chats/messages/reducer';
+import { animeFactsReducer } from './animefacts/reducer';
 
 const composeExtenders = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers ({
   profile: profileReducer,
   chats: chatsReducer,
   messages: messagesReducer,
+  animeFacts: animeFactsReducer,
 });
 
 const persistConfig = {

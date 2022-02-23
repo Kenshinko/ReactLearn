@@ -1,0 +1,32 @@
+.animelist {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.animelist__title {
+  flex: 1 0 25%;
+  min-width: 50px;
+  max-width: 100%;
+  height: 250px;
+}
+
+.animelist li {
+  list-style: none;
+}
+
+.anime {
+  padding: 10px;
+}
+
+.anime__name {
+  color: white;
+
+}
+
+.anime__img {
+  width: 150px;
+  height: 210px;
+  object-fit: cover;
+}
