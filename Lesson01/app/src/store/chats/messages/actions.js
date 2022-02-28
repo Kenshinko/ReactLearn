@@ -1,3 +1,6 @@
+import { set } from 'firebase/database';
+
+import { getMessageRefById } from '../../../services/firebase';
 import { Authors, BotResponses } from '../../../utils/variables';
 
 export const ADD_MESSAGE = 'MESSAGES:ADD_MESSAGE';
@@ -10,7 +13,7 @@ export const addMessage = (chatId, newMess) => ({
 
 let timeout;
 
-export const addMessageViaThunk = (chatId, newMess) => (dispatch) => {
+export const addBotMessage = (chatId, newMess) => (dispatch) => {
   dispatch(addMessage(chatId, newMess));
 
   if (newMess.author !== Authors.bot.name) {
@@ -23,7 +26,9 @@ export const addMessageViaThunk = (chatId, newMess) => (dispatch) => {
         text: BotResponses[Math.floor(Math.random() * BotResponses.length)],
         date: new Date().toLocaleTimeString(),
       };
-    dispatch(addMessage(chatId, newMessFromBot));
+    // dispatch(addMessage(chatId, newMessFromBot));
+    set(getMessageRefById(chatId, newMessFromBot.id), newMessFromBot);
+
     }, 1000);
   }
 } 

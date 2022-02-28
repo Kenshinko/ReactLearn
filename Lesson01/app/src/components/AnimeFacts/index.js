@@ -9,6 +9,8 @@ import { getAnimeFacts } from '../../store/animefacts/actions';
 import './animefacts.css';
 
 export const AnimeFacts = () => {
+  const data = useSelector((state) => state.profile);
+
   const dispatch = useDispatch();
 
   const error = useSelector(selectError);
@@ -25,8 +27,8 @@ export const AnimeFacts = () => {
 
   return (
     <>
-      <h1>Факты об аниме</h1>
-      <button onClick={getData}>Обновить</button>
+      <h1 style={{ color: data.color }}>Факты об аниме</h1>
+      <button className="signup__btn" onClick={getData}>Обновить</button>
       {error && <h2>Error: {error.message}</h2>}
       {isLoading ? (
         <CircularProgress />
@@ -35,7 +37,7 @@ export const AnimeFacts = () => {
           {animeFacts.map((facts) => (
             <div key={facts.anime_id} className='animelist__title anime'>
               <div className='anime'>
-                <img className='anime__img' src={facts.anime_img} />
+                <img className='anime__img' src={facts.anime_img} alt={facts.anime_name} />
                 <p className='anime__name'>{facts.anime_name}</p>
               </div>
             </div>

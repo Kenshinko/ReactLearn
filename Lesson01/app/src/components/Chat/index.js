@@ -1,22 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useParams } from "react-router";
-import { useDispatch, useSelector } from 'react-redux';
+import { onChildAdded, onValue, set } from "@firebase/database";
 
 import { MessageList } from '../MessageList';
 import { Form } from '../Form';
 
 import { Authors } from '../../utils/variables';
-import { selectMessages } from '../../store/chats/messages/selector';
-import { addMessageViaThunk } from '../../store/chats/messages/actions';
+import { getMessageListRefByChatId, getMessageRefById, getMessagesRefByChatId } from "../../services/firebase";
 
 import '../../App.css';
 
 export const Chat = () => {
   const params = useParams();
   const {chatId} = params;
-
-  const messages = useSelector(selectMessages);
-  const dispatch = useDispatch();
+  const [messages, setMessages] = useState([]);
 
   const handleAddMessage = (text) => {
     sendMessage (text);
@@ -29,16 +26,37 @@ export const Chat = () => {
       text,
       date: new Date().toLocaleTimeString(),
     };
-    dispatch(addMessageViaThunk(chatId, newMess));
+    set(getMessageRefById(chatId, newMess.id), newMess);
   };
 
-  if (!messages[chatId]) {
+  useEffect(() => {
+    const unsubscribe = onValue(getMessagesRefByChatId(chatId), (snapshot) => {
+      if (!snapshot.val()?.empty) {
+        setMessages(null);
+      }
+    });
+
+    return unsubscribe;
+  }, [chatId]);
+
+  useEffect(() => {
+    const unsubscribe = onChildAdded(
+      getMessageListRefByChatId(chatId),
+      (snapshot) => {
+        setMessages((prevMessages) => [...prevMessages, snapshot.val()]);
+      }
+    );
+
+    return unsubscribe;
+  }, [chatId]);
+
+  if (!messages) {
     return <Navigate to="/chats" replace />;
   };
 
   return (
         <div className="timeline">
-          <MessageList messages={messages[chatId]} />
+          <MessageList messages={messages} />
           <Form onSubmit={handleAddMessage} />
         </div>
   );

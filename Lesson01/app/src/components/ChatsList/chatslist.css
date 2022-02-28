@@ -6,3 +6,11 @@
   height: 300px;
   justify-content: center;
 }
+.closebtn {
+  border: 2px solid gray;
+  border-radius: 60px;
+  font-size: 20px;
+  align-self: baseline;
+  padding: 0 9px;
+  margin-left: 5px;
+}

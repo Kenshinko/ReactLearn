@@ -1,5 +1,7 @@
-import { Link, Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, Outlet } from 'react-router-dom';
+import { remove, set } from "@firebase/database";
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,8 +12,8 @@ import IconButton from '@mui/material/IconButton';
 import { Form } from '../Form';
 
 import { selectChats } from '../../store/chats/selector';
-import { addChat, deleteChat } from '../../store/chats/actions';
-
+import { initChatsTracking } from '../../store/chats/actions';
+import { getChatsRefById, getMessagesRefByChatId } from "../../services/firebase";
 
 import './chatslist.css';
 
@@ -19,16 +21,19 @@ export const ChatsList = () => {
   const chats = useSelector(selectChats);
   const dispatch = useDispatch();
 
-  // Добавляем новый чат в стор.
   const handleAddChat = (newChatName) => {
     const newId = `chat${Date.now()}`;
-    dispatch(addChat(newId, newChatName));
+    set(getChatsRefById(newId), { id: newId, name: newChatName });
+    set(getMessagesRefByChatId(newId), { empty: true });
   };
 
-  // Удаляем чат из стора.
   const handleDeleteChat = (id) => {
-    dispatch(deleteChat(id));
+    remove(getChatsRefById(id));
   };
+
+  useEffect(() => {
+    dispatch(initChatsTracking());
+  }, []);
 
   return (
   <>
@@ -49,7 +54,7 @@ export const ChatsList = () => {
             >
               <Link to={`/chats/${chat.id}`}>
                 <ListItemText primary={`${chat.name}`} />
-                <div onClick={() => handleDeleteChat(chat.id)}>&nbsp;X</div>
+                <div className='closebtn' onClick={() => handleDeleteChat(chat.id)}>X</div>
               </Link>
             </ListItem>
           ))}
