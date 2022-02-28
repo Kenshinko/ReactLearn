@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import { CHANGE_COLOR } from '../../store/profile/actions';
+import { logOut } from "../../services/firebase";
 
 import './profile.css';
 
@@ -13,6 +15,14 @@ export const Profile = () => {
       payload: color.target.id,
     });
   }
+
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+    } catch (e) {
+      console.warn(e);
+    }
+  };
 
   return (
     <div className="App">
@@ -39,6 +49,9 @@ export const Profile = () => {
             </fieldset>
           </form>
         </div>
+      <div>
+        <button className="signup__btn" onClick={handleLogOut}>LOGOUT</button>
+      </div>
       </header>
     </div>
   );
