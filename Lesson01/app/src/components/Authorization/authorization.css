@@ -1,0 +1,22 @@
+.signup {}
+.signup__title {}
+
+.signup__form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 15px;
+}
+
+.signup__field {
+  margin: 5px 0;
+  width: 175px;
+  border-radius: 3px;
+}
+
+.signup__btn {
+  margin-top: 5px;
+  padding: 5px 15px;
+  border-radius: 3px;
+}

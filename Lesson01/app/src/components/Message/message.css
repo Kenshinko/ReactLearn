@@ -28,6 +28,8 @@
 .timeline-mini a {
   display: flex;
   align-items: end;
+  text-decoration: none;
+  color: black;
 }
 
 .message {
