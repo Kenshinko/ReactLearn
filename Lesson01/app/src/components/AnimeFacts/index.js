@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CircularProgress } from '@mui/material';
@@ -8,7 +8,7 @@ import { getAnimeFacts } from '../../store/animefacts/actions';
 
 import './animefacts.css';
 
-export const AnimeFacts = () => {
+export const AnimeFacts = React.memo(() => {
   const data = useSelector((state) => state.profile);
 
   const dispatch = useDispatch();
@@ -46,4 +46,4 @@ export const AnimeFacts = () => {
       )}
     </>
   );
-};
+});
